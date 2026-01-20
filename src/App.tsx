@@ -20,7 +20,7 @@ const NotFoundPage = lazy(() => import('./pages/public/NotFoundPage'))
 const JessicaHomePage = lazy(() => import('./pages/JessicaHomePage'))
 const JessicaGalleryPage = lazy(() => import('./pages/JessicaGalleryPage'));
 const JessicaBlogPage = lazy(() => import('./pages/JessicaBlogPage'))
-const BlogIndexPage = lazy(() => import('./pages/public/BlogIndexPage'));
+//const BlogIndexPage = lazy(() => import('./pages/public/BlogIndexPage'));
 import { ProtectedRoute } from './components/ProtectedRoute'
 import PageSkeleton from './components/feedback/PageSkeleton'
 import ScrollToTop from './components/routing/ScrollToTop'
