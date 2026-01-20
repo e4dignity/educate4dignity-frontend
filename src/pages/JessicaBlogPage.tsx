@@ -47,8 +47,7 @@ const JessicaBlogPage: React.FC = () => {
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
   const [year, setYear] = useState<number | ''>('');
-  const [tags, setTags] = useState<string[]>([]);
-  const [page, setPage] = useState(1);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 
   const landingImageBySlug = useMemo(
     () => ({
@@ -60,7 +59,6 @@ const JessicaBlogPage: React.FC = () => {
   );
 
   const blogApiLoadable = useRecoilValueLoadable(blogBaseListSelector);
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 
   useEffect(() => {
     const staticPosts: BlogPost[] = blogStore
@@ -133,17 +131,16 @@ const JessicaBlogPage: React.FC = () => {
         const okCat = category === 'all' || p.category === category;
         const yr = new Date(p.publishDate).getFullYear();
         const okYear = !year || yr === year;
-        const okTags = !tags.length || tags.every((t) => p.tags.includes(t));
-        return okQ && okCat && okYear && okTags;
+        return okQ && okCat && okYear;
       })
       .sort((a, b) =>
         sort === 'newest'
           ? new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
           : new Date(a.publishDate).getTime() - new Date(b.publishDate).getTime()
       );
-  }, [blogPosts, q, category, year, tags, sort]);
+  }, [blogPosts, q, category, year, sort]);
 
-  const paginated = filtered.slice((page - 1) * 6, page * 6);
+  const paginated = filtered.slice(0, 6);
   const getCoverFor = (slug: string, idx: number) =>
     landingImageBySlug[slug] || blogPosts.find((p) => p.slug === slug)?.image || imageForIndex(idx);
 
