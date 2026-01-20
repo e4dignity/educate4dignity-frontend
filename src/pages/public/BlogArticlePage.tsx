@@ -106,14 +106,14 @@ const BlogArticlePage: React.FC = () => {
     return meta;
   })();
   const article: BlogArticle | undefined = merged;
-  // Prefer curated static cover first; fall back to admin/store cover
-  const coverUrl = (location.state?.coverOverride || apiArticle?.cover_image_url || staticArticle?.cover_image_url || storeArticle?.cover_image_url || '');
+  // Prefer API-provided cover first (most up-to-date), then navigation override, then static/store fallbacks
+  const coverUrl = (apiArticle?.cover_image_url || location.state?.coverOverride || staticArticle?.cover_image_url || storeArticle?.cover_image_url || '');
   const [imgSrc, setImgSrc] = useState(coverUrl);
-  // Keep the landing card's cover image if provided via route state; otherwise prefer static then store cover
+  // Update image source when API or navigation state changes; prefer API value when available
   useEffect(() => {
-    const next = (location.state?.coverOverride || staticArticle?.cover_image_url || storeArticle?.cover_image_url || '');
+    const next = (apiArticle?.cover_image_url || location.state?.coverOverride || staticArticle?.cover_image_url || storeArticle?.cover_image_url || '');
     setImgSrc(next);
-  }, [slug, storeArticle, staticArticle, location.state]);
+  }, [slug, apiArticle, storeArticle, staticArticle, location.state]);
   const tried = useRef<{staticTried:boolean; placeholderTried:boolean}>({staticTried:false, placeholderTried:false});
   const [copied, setCopied] = useState(false);
   const progressRef = useRef<HTMLDivElement>(null);
