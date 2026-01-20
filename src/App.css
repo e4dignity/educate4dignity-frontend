@@ -1,0 +1,23 @@
+.App {
+  min-height: 100vh;
+}
+
+/* Admin editor fixed toolbar helpers */
+.btn-icon {
+  @apply w-8 h-8 inline-flex items-center justify-center rounded-full border bg-white hover:bg-gray-50 text-gray-700;
+  border-color: var(--border-color);
+}
+.btn-chip {
+  @apply h-8 px-3 inline-flex items-center justify-center rounded-full border bg-white hover:bg-gray-50 text-gray-700 text-[12px];
+  border-color: var(--border-color);
+}
+
+/* Links inside article/editor prose */
+.prose a {
+  color: #2563eb; /* blue-600 */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose a:hover {
+  color: #1d4ed8; /* blue-700 */
+}

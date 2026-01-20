@@ -1,0 +1,7 @@
+<svg width="480" height="300" viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grace from Rwanda gaining confidence">
+  <rect width="480" height="300" rx="20" fill="#fbafb3" fill-opacity="0.25" />
+  <circle cx="160" cy="140" r="56" fill="#fbafb3" />
+  <circle cx="160" cy="140" r="36" fill="#fa9b9f" />
+  <path d="M110 232c12-70 108-70 120 0" stroke="#fbafb3" stroke-width="18" stroke-linecap="round" fill="none" />
+  <path d="M132 130c20 24 52 24 72 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" />
+</svg>

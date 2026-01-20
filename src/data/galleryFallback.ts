@@ -1,0 +1,61 @@
+import { GalleryImage } from '../types/gallery';
+
+// Local demo images that ship with the app (used when backend is unavailable)
+// Paths are relative to the public/ folder
+export const fallbackGalleryImages: GalleryImage[] = [
+  {
+    id: 'fallback-1',
+    filename: 'Luiru1.jpg',
+    url: '/photos/Others/Luiru1.jpg',
+    title: 'Education session in Luiru',
+    description: 'Interactive class on menstrual hygiene and dignity kits.',
+    category: 'education',
+    tags: ['demo', 'education'],
+    uploadedAt: new Date(),
+    isPublic: true,
+  },
+  {
+    id: 'fallback-2',
+    filename: 'luiru5.jpg',
+    url: '/photos/Others/luiru5.jpg',
+    title: 'Community outreach',
+    description: 'Engaging with local community leaders.',
+    category: 'community',
+    tags: ['demo', 'community'],
+    uploadedAt: new Date(),
+    isPublic: true,
+  },
+  {
+    id: 'fallback-3',
+    filename: 'B10.jpg',
+    url: '/photos/Others/B10.jpg',
+    title: 'Kit distribution day',
+    description: 'Distributing reusable kits to girls.',
+    category: 'distribution',
+    tags: ['demo', 'distribution'],
+    uploadedAt: new Date(),
+    isPublic: true,
+  },
+  {
+    id: 'fallback-4',
+    filename: 'luiru6.jpg',
+    url: '/photos/Others/luiru6.jpg',
+    title: 'Impact in action',
+    description: 'Smiles after a successful session.',
+    category: 'impact',
+    tags: ['demo', 'impact'],
+    uploadedAt: new Date(),
+    isPublic: true,
+  },
+  {
+    id: 'fallback-5',
+    filename: 'B5.jpg',
+    url: '/photos/Others/B5.jpg',
+    title: 'Workshop moments',
+    description: 'Hands-on demonstrations and Q&A.',
+    category: 'education',
+    tags: ['demo', 'education'],
+    uploadedAt: new Date(),
+    isPublic: true,
+  },
+];

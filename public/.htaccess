@@ -1,0 +1,12 @@
+# SPA fallback for React Router on Apache (cPanel)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  # Allow direct access to existing files
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule . - [L]
+  # Otherwise, serve index.html
+  RewriteRule . /index.html [L]
+</IfModule>

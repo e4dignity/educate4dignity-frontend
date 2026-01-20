@@ -1,0 +1,8 @@
+<svg width='560' height='340' viewBox='0 0 560 340' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Reusable menstrual kit flat lay'>
+  <rect width='560' height='340' rx='28' fill='#FA9B9F'/>
+  <rect x='120' y='90' width='320' height='160' rx='28' fill='#FFFFFF' fill-opacity='0.9'/>
+  <rect x='150' y='120' width='60' height='100' rx='12' fill='#FBADB2'/>
+  <rect x='230' y='120' width='60' height='100' rx='12' fill='#FCE8E9'/>
+  <rect x='310' y='120' width='60' height='100' rx='12' fill='#F07E84'/>
+  <rect x='390' y='120' width='30' height='100' rx='8' fill='#FBADB2'/>
+</svg>

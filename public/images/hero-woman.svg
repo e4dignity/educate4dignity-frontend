@@ -1,0 +1,17 @@
+<svg width="800" height="520" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Young woman in need receiving educational support">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fce8e9"/>
+      <stop offset="100%" stop-color="#fa9b9f"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="520" rx="24" fill="url(#bg)"/>
+  <g transform="translate(400 270)">
+    <circle cx="0" cy="-110" r="70" fill="#fff" fill-opacity="0.6" />
+    <circle cx="0" cy="-110" r="44" fill="#fa9b9f" />
+    <path d="M-90 60c12-74 168-74 180 0v90H-90z" fill="#ffffff" fill-opacity="0.75" />
+    <path d="M-70 50c8-54 128-54 136 0v90H-70z" fill="#f07e84" fill-opacity="0.85" />
+    <path d="M-26 -126c10 14 27 14 37 0" stroke="#fff" stroke-width="4" stroke-linecap="round" />
+  </g>
+  <text x="50%" y="480" text-anchor="middle" font-family="'Inter',sans-serif" font-size="28" fill="#213547" font-weight="600">Dignity Through Education</text>
+</svg>

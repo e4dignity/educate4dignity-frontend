@@ -1,0 +1,14 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clean water project placeholder">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fce8e9"/>
+      <stop offset="100%" stop-color="#fa9b9f"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#g)" rx="12"/>
+  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M320 90c40 70 60 110 60 140a60 60 0 0 1-120 0c0-30 20-70 60-140z" fill="rgba(255,255,255,0.25)"/>
+    <path d="M320 260a30 30 0 0 0 30-30" />
+  </g>
+  <text x="50%" y="86%" font-family="'Inter',sans-serif" font-size="32" text-anchor="middle" fill="#ffffff" font-weight="600">Clean Water</text>
+</svg>

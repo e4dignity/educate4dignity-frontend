@@ -1,0 +1,8 @@
+<svg width='560' height='340' viewBox='0 0 560 340' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Distribution of kits by cooperative'>
+  <rect width='560' height='340' rx='28' fill='#FBADB2'/>
+  <rect x='100' y='90' width='360' height='160' rx='20' fill='#FFFFFF' fill-opacity='0.85'/>
+  <rect x='130' y='120' width='80' height='50' rx='10' fill='#FA9B9F'/>
+  <rect x='230' y='120' width='80' height='50' rx='10' fill='#FCE8E9'/>
+  <rect x='330' y='120' width='80' height='50' rx='10' fill='#F07E84'/>
+  <rect x='160' y='190' width='240' height='18' rx='9' fill='#FCE8E9'/>
+</svg>

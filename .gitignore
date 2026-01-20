@@ -1,0 +1,43 @@
+node_modules/
+dist/
+.env
+.env.*
+.DS_Store
+.cache/
+build/
+coverage/
+.idea/
+.vscode/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules
+dist
+dist/
+.DS_Store
+*.log
+pnpm-lock.yaml
+# Environment files (do not commit secrets)
+.env
+.env.*
+.env.local
+.env.development
+.env.development.local
+.env.production
+.env.production.local
+.env.test
+.env.test.local
+.env.example
+
+# Local files
+*.local
+# Generated output
+coverage
+*.zip
+dist.zip
+
+# Editor/OS files
+.idea
+.vscode/
+.cache
+Thumbs.db

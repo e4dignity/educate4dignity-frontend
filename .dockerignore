@@ -1,0 +1,38 @@
+# Dependencies and build artifacts
+node_modules
+npm-debug.log
+.yarn
+.pnpm-store
+
+# Build outputs (will be copied separately)
+dist
+
+# Development files
+.env.local
+.env.development
+.env.test
+src
+public/src
+tsconfig*.json
+vite.config.ts
+tailwind.config.js
+postcss.config.js
+
+# VCS and editor
+.git
+.gitignore
+.DS_Store
+.vscode
+
+# Docker
+Dockerfile*
+**/*.dockerfile
+
+# Documentation
+README*.md
+
+# Misc
+*.swp
+*.log
+coverage
+.tmp

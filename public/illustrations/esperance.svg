@@ -1,0 +1,7 @@
+<svg width='480' height='300' viewBox='0 0 480 300' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Esperance free from stigma'>
+  <rect width='480' height='300' rx='28' fill='#FA9B9F'/>
+  <circle cx='160' cy='134' r='70' fill='#1F2937'/>
+  <circle cx='160' cy='150' r='54' fill='#FBADB2'/>
+  <path d='M110 220c10-60 100-60 110 0' stroke='#FCE8E9' stroke-width='20' stroke-linecap='round' fill='none'/>
+  <path d='M132 148c18 20 38 20 56 0' stroke='#FFFFFF' stroke-width='8' stroke-linecap='round' fill='none'/>
+</svg>

@@ -1,0 +1,114 @@
+**Document d'Orientation pour la Refonte du Site Educate4Dignity / Jessica Dignity Project**
+
+---
+
+### 1. Contexte et Objectif
+
+Le site **Educate4Dignity** a été conçu pour présenter l'engagement de **Jessica** dans la lutte contre la pauvreté menstruelle et la promotion de la dignité éducative des jeunes filles en Afrique. Toutefois, sa structure actuelle donne l'impression d'une organisation impersonnelle, alors qu'il s'agit avant tout d'un projet personnel, sincère et innovant.
+
+L'objectif de cette refonte est donc de **recentrer le site sur Jessica** — son parcours, son expérience, et son rôle moteur dans cette initiative. Le site doit devenir une **vitrine de leadership et d'impact individuel**, alignée avec ses ambitions académiques et humanitaires.
+
+---
+
+### 2. Vision du Site
+
+Le site doit raconter une **histoire humaine et inspirante** : celle d'une jeune fille qui transforme un sujet tabou en une cause de justice, d'équity et d'innovation. Il s'agit d'un **portfolio narratif**, où chaque élément — texte, photo, chiffre, ou témoignage — contribue à montrer comment **l'ingénierie, la compassion et l'éducation** peuvent s'unir pour changer des vies.
+
+---
+
+### 3. Recommandations Stratégiques
+
+#### 3.1. Changement de cadrage narratif (Storytelling)
+
+* Adopter une narration **à la première personne** : « Je suis Jessica, et voici comment j'ai commencé mon projet... ».
+* Replacer **la voix et le visage de Jessica** au centre : sa photo, ses mots, ses actions.
+* Raconter le projet comme une **expérience de transformation personnelle** et non comme une opération institutionnelle.
+
+#### 3.2. Simplification de la structure
+
+* Limiter la navigation à **3 à 4 onglets** : Accueil, Galerie, Impact, Contact.
+* Fusionner la section **About** avec la page d'accueil pour une lecture fluide.
+* Supprimer les éléments de type ONG (partenaires, levées de fonds multiples, cartes interactives complexes).
+
+#### 3.3. Authenticité et cohérence visuelle
+
+* **Remplacer toutes les images générées par IA** par des **photos réelles** issues des activités de Jessica (avec les élèves, les kits, les ateliers).
+* **Tonalité visuelle** : claire, simple, chaleureuse, avec une palette douce (rose, beige, blanc).
+* Supprimer ou corriger le mode sombre s'il compromet la lisibilité.
+
+#### 3.4. Contenu dynamique et engageant
+
+* Mettre en avant des **statistiques clés** : par exemple, « 500 filles formées », « 213 000 kits distribués au Burundi ».
+* Créer une **section "Impact en chiffres"** avec des pictogrammes simples.
+* Intégrer une **galerie photo interactive** avec des légendes explicatives.
+* Utiliser un ton inspirant, mais toujours personnel et sobre.
+
+#### 3.5. Nom de domaine et branding
+
+* Adopter un nom lié à Jessica : `jessicadignityproject.org` ou `jessica-e4dignity.org`.
+* Logo minimaliste – peut inclure le nom "Jessica Dignity Project" avec une typographie claire et un symbole discret (ex. une goutte d'eau ou un fil tissé symbolisant la dignité).
+
+---
+
+### 4. Intégration du Storytelling : "From Taboo to Dignity"
+
+#### 4.1. Introduction – Un défi silencieux
+
+> In the quiet hills of rural Burundi, a girl misses school. Not because she is ill or uninterested, but because she is menstruating. Without access to sanitary pads or private bathrooms, she stays home, fearful of stains, smells, and shame. For her, menstruation is not a mere inconvenience; it is a monthly crisis that threatens her education, her health, and her future.
+
+Ce paragraphe doit apparaître **en ouverture du site**, sous une photo véritable de Jessica ou d'élèves burundaises, avec une **mise en page immersive** (texte semi-transparent sur fond photo).
+
+#### 4.2. Problématique globale
+
+> Across sub-Saharan Africa, this experience is not uncommon. Period poverty, the inability to afford menstrual hygiene products, affects millions of girls... When menstruation becomes a barrier to education, society forfeits the leadership, innovation, and contributions of half its population.
+
+Cette section peut constituer une **page d'introduction ou un encadré illustré** avec des données clés et un schéma simple (ex. perte de scolarité – impact sociétal – conséquences générationnelles).
+
+#### 4.3. Innovations et solutions communautaires
+
+> Yet, solutions are emerging... the Agateka pad, developed by SaCoDé, is a simple yet transformative innovation... These are not just products, they are acts of dignity engineering.
+
+Mettre en avant les **exemples concrets** (Agateka, Banapads, etc.) sous forme de **fiches visuelles** avec images et chiffres, en soulignant **l'approche "innovation locale"**.
+
+#### 4.4. Le parcours de Jessica
+
+> My journey into this movement began in 2023... What began as a simple conversation among peers has grown into a lasting commitment.
+
+Cette partie doit être **le cœur du site** :
+
+* photo de Jessica en atelier ou en discussion avec des filles ;
+* citation personnelle mise en avant : *"Science, when guided by empathy, can restore dignity and create lasting change."*
+
+#### 4.5. L'initiative de Mugerere (2024)
+
+> This year, with the support of a grant from Deerfield, I led a menstrual health education initiative in Mugerere... I worked with 500 girls between the ages of 13 and 15, providing each with a kit of reusable pads designed to last up to five years.
+
+Cette section doit intégrer :
+
+* une **galerie photo** des activités ;
+* un **encadré chiffré** (500 filles formées, 5 ans de durée des kits, 300 miles parcourus) ;
+* une courte vidéo témoignant de la journée de distribution.
+
+#### 4.6. Vision future et engagement
+
+> As I continue my education... biology should never determine destiny. Menstruation should not be a reason for exclusion, silence, or shame, it should be met with science, support, and solidarity.
+
+Cette conclusion constituera la **section de vision / appel à l'action**, liée à un bouton « Support My Work » ou « Join the Movement ».
+
+---
+
+### 5. Déploiement technique et test
+
+1. Prioriser le **cadrage narratif** avant toute modification technique.
+2. Tester l'affichage sur **mobile et desktop**.
+3. Supprimer les bugs connus (carte interactive, musique intrusive, boutons incohérents).
+4. Optimiser le temps de chargement des images.
+5. Finaliser en 1 à 2 semaines pour synchroniser avec les **délais de candidature universitaire**.
+
+---
+
+### 6. Synthèse finale
+
+Le nouveau site **Jessica Dignity Project** ne sera pas une vitrine impersonnelle, mais un **récit vivant** : celui d'une jeune femme africaine qui utilise la science, l'éducation et l'empathie pour redéfinir la dignité féminine. Ce site doit transmettre une émotion, une vision et une preuve d'action.
+
+> **Menstruation should not be a cause for silence or shame — it should be met with science, support, and solidarity.**

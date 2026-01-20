@@ -1,0 +1,95 @@
+import { Project, User, Donation } from '../types';
+
+export const mockUsers: User[] = [
+  {
+    id: '1',
+    email: 'admin@educate4dignity.org',
+    firstName: 'Admin',
+    lastName: 'User',
+    role: 'admin',
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: '2',
+    email: 'john.doe@example.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    role: 'donor',
+    createdAt: '2024-01-15T00:00:00Z',
+    updatedAt: '2024-01-15T00:00:00Z',
+  },
+];
+
+export const mockProjects: Project[] = [
+  {
+    id: '1',
+  title: 'Menstrual Health Kit Production & Distribution',
+  description: 'Training local women to sew reusable menstrual hygiene kits and distributing 1,200 dignity packs to school girls with tracking of usage and retention.',
+  type: 'distribution',
+    status: 'active',
+  budget: 48000,
+  raised: 31000,
+  startDate: '2024-02-10T00:00:00Z',
+  endDate: '2024-08-30T00:00:00Z',
+  location: 'Kisumu County, Kenya',
+    createdBy: '1',
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  thumbnail: '/images/placeholder-water.svg', // placeholder until themed asset
+  },
+  {
+    id: '2',
+  title: 'School Menstrual Health Education & Facilities',
+  description: 'Implementing participatory menstrual health curriculum in 15 schools, training 30 female facilitators and upgrading 10 girl-friendly washrooms.',
+  type: 'training',
+    status: 'active',
+  budget: 30000,
+  raised: 20500,
+  startDate: '2024-03-05T00:00:00Z',
+  endDate: '2024-09-15T00:00:00Z',
+  location: 'Ashanti Region, Ghana',
+    createdBy: '1',
+    createdAt: '2024-01-15T00:00:00Z',
+    updatedAt: '2024-01-15T00:00:00Z',
+  thumbnail: '/images/placeholder-literacy.svg',
+  },
+  {
+    id: '3',
+  title: 'Adolescent Menstrual Health Impact Study',
+  description: 'Mixed-method research measuring school attendance, confidence, and health outcomes post kit distribution & education sessions across 5 districts.',
+  type: 'research',
+    status: 'draft',
+  budget: 52000,
+  raised: 6000,
+  startDate: '2024-06-10T00:00:00Z',
+  endDate: '2024-12-15T00:00:00Z',
+  location: 'Amhara & Oromia, Ethiopia',
+    createdBy: '1',
+    createdAt: '2024-02-01T00:00:00Z',
+    updatedAt: '2024-02-01T00:00:00Z',
+  thumbnail: '/images/placeholder-generic.svg',
+  },
+];
+
+export const mockDonations: Donation[] = [
+  {
+    id: '1',
+    amount: 100,
+    currency: 'USD',
+    donorId: '2',
+    projectId: '1',
+    message: 'Keep up the great work!',
+    isRecurring: false,
+    createdAt: '2024-02-15T00:00:00Z',
+  },
+  {
+    id: '2',
+    amount: 50,
+    currency: 'USD',
+    donorId: '2',
+    projectId: '2',
+    isRecurring: true,
+    createdAt: '2024-03-01T00:00:00Z',
+  },
+];

@@ -1,0 +1,7 @@
+<svg width="480" height="300" viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Amina from Burundi smiling after returning to school">
+  <rect width="480" height="300" rx="20" fill="#fa9b9f" fill-opacity="0.18" />
+  <circle cx="150" cy="130" r="54" fill="#fa9b9f" />
+  <circle cx="150" cy="130" r="34" fill="#f07e84" />
+  <path d="M96 220c10-60 98-60 108 0" stroke="#fa9b9f" stroke-width="18" stroke-linecap="round" fill="none" />
+  <path d="M124 120c18 22 46 22 64 0" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" />
+</svg>

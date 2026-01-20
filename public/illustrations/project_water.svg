@@ -1,0 +1,11 @@
+<svg width='560' height='340' viewBox='0 0 560 340' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Women collecting clean water at new access point'>
+  <rect width='560' height='340' rx='28' fill='#FCE8E9'/>
+  <circle cx='120' cy='260' r='80' fill='#FBADB2'/>
+  <circle cx='280' cy='190' r='110' fill='#FA9B9F' fill-opacity='0.55'/>
+  <path d='M70 252c8-44 92-44 100 0v60H70z' fill='#FFFFFF' fill-opacity='0.8'/>
+  <path d='M250 230c10-52 120-52 130 0v82H250z' fill='#FFFFFF' fill-opacity='0.75'/>
+  <path d='M196 132c14 20 34 20 48 0' stroke='#1F2937' stroke-linecap='round' stroke-width='6'/>
+  <path d='M410 168h40v108h-40z' fill='#F07E84'/>
+  <rect x='420' y='130' width='20' height='40' rx='6' fill='#FBADB2'/>
+  <rect x='402' y='152' width='56' height='12' rx='6' fill='#FFFFFF' fill-opacity='0.7'/>
+</svg>

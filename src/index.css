@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary colors */
+  --color-primary: #fa9b9f;
+  --color-primary-dark: #f07e84;
+  --color-primary-light: #fce8e9;
+  --color-primary-hover: #fbafb3;
+  
+  /* Background colors */
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  
+  /* Border colors */
+  --color-border: #e5e7eb;
+  
+  /* Text colors */
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+  
+  /* Status colors */
+  --color-success: #015730;
+  --color-success-light: #e6efe9;
+  --color-warning: #ee872b;
+  --color-warning-light: #fdf3ea;
+  --color-error: #dc2626;
+  --color-error-light: #fee2e2;
+
+  /* Rose Limbo Palette */
+  --rose-50:#fff1f5; --rose-100:#ffe4e6; --rose-200:#fecdd3; --rose-400:#fb7185; --rose-500:#f43f5e; --rose-600:#e11d48; --rose-700:#be123c;
+  --slate-900:#0f172a; --slate-700:#334155; --slate-600:#475569; --slate-500:#64748b;
+  /* Additional Rose Limbo design tokens already declared above */
+}
+
+/* Dark mode adjustments from provided style spec */
+.dark {
+  --color-background: #1a1a1a;
+  --color-surface: #2d2d2d;
+  --color-overlay: rgba(0, 0, 0, 0.75);
+  --color-border: #404040;
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #d1d5db;
+  --color-text-tertiary: #9ca3af;
+  --color-primary: #f07e84;
+  --color-primary-dark: #fa9b9f; 
+  --color-primary-light: #fbafb3;
+  --color-success: #059669;
+  --color-success-light: #064e3b;
+  --color-warning: #d97706;
+  --color-warning-light: #78350f;
+  --color-error: #dc2626;
+  --color-error-light: #7f1d1d;
+}
+
+body { background: var(--rose-50); color: var(--slate-700); font-family: 'Poppins','Segoe UI','SegoeUI',Roboto,Helvetica,Arial,'Noto Sans',sans-serif; }
+
+/* Theme utility classes */
+.bg-surface { background: var(--color-surface); }
+.bg-background { background: var(--color-background); }
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-accent { color: var(--color-primary-dark); }
+.border-base { border-color: var(--color-border); }
+
+/* Primary button new semantic variant */
+.btn-primary { background: var(--color-primary); color:#fff; padding:0 20px; height:40px; display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:14px; border-radius:12px; transition:background .2s; }
+.btn-primary:hover { background: var(--color-primary-dark); }
+
+/* Sticky toolbar (resources page) */
+.lr-toolbar.sticky { position:sticky; top:84px; z-index:40; }
+
+/* Basic utility helpers (pure CSS, no @apply) */
+.fade-up { opacity:0; transform:translateY(30px); transition:opacity .8s ease-out, transform .8s ease-out; }
+.fade-up.appear { opacity:1; transform:translateY(0); }
+.partner-rotate-dot { width:10px; height:10px; border-radius:9999px; background:var(--rose-200); display:inline-block; }
+.partner-rotate-dot.active { background:var(--rose-500); }
+.country-pill { padding:4px 12px; border:1px solid var(--rose-200); border-radius:9999px; background:var(--rose-50); font-size:12px; cursor:pointer; user-select:none; }
+.country-pill.active { background:var(--rose-500); color:#fff; }
+.kpi-number { color:var(--rose-600); font-weight:800; font-size:30px; line-height:1.1; }
+.progress-rose { background:var(--rose-100); height:8px; border-radius:9999px; overflow:hidden; }
+.progress-rose > span { background:var(--rose-500); height:100%; display:block; }
+
+/* Partner tile */
+.partner-tile { padding:12px 18px; font-size:13px; border:1px solid var(--rose-200); border-radius:14px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,0.04); color:var(--slate-600); flex:0 0 auto; }
+.partner-tile:hover { background:var(--rose-50); }
+
+/* Mini map (fallback) */
+.mini-map-wrapper { margin-top:20px; background:#fff; border:1px solid var(--rose-200); border-radius:16px; padding:16px; }
+.mini-map { width:100%; max-width:520px; aspect-ratio:4/2.2; display:block; }
+.mini-map svg { width:100%; height:100%; }
+.country-shape { fill:#e5e7eb; stroke:#d1d5db; stroke-width:1; cursor:pointer; transition:fill .25s, stroke .25s, transform .25s; }
+.country-shape:hover { fill:#cbd5e1; }
+.country-shape.active { fill:#5f9f9d; stroke:#467a78; }
+
+/* World map countries */
+.world-country { fill:#e5e7eb; stroke:#d1d5db; stroke-width:.7; cursor:pointer; transition:fill .25s, stroke .25s; }
+.world-country:hover { fill:#d4d9df; }
+.world-country.highlight { fill:#c4e4e3; }
+.world-country.active { fill:#5f9f9d; stroke:#3f6d6b; }
+
+/* Map tooltip (if used outside foreignObject) */
+.map-tooltip { position:absolute; background:rgba(255,255,255,.9); border:1px solid var(--rose-200); padding:6px 10px; font-size:11px; border-radius:6px; pointer-events:none; color:var(--slate-700); box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+
+/* Buttons */
+.btn-rose { background:var(--color-primary); color:#fff; padding:0 20px; height:40px; display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:14px; border-radius:12px; transition:background .2s, transform .15s; }
+.btn-rose:hover { background:var(--color-primary-dark); }
+/* Dedicated donate attention variant (slightly deeper + subtle lift) */
+.btn-donate { background:var(--rose-600); color:#fff; padding:0 22px; height:44px; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; border-radius:14px; letter-spacing:.3px; box-shadow:0 4px 10px -2px rgba(190,18,60,0.45); transition:background .2s, transform .15s, box-shadow .2s; }
+.btn-donate:hover { background:var(--rose-700); transform:translateY(-2px); box-shadow:0 6px 16px -3px rgba(190,18,60,0.55); }
+.btn-donate:active { transform:translateY(0); box-shadow:0 3px 8px -2px rgba(190,18,60,0.55); }
+.btn-outline-rose { background:linear-gradient(#fff,#fff) padding-box, linear-gradient(120deg,var(--rose-200),var(--rose-100)) border-box; border:1px solid transparent; color:var(--color-text-primary); padding:0 20px; height:42px; display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:14px; border-radius:14px; transition:background .25s, box-shadow .25s, transform .15s, color .25s; box-shadow:0 2px 4px rgba(0,0,0,0.06); }
+.btn-outline-rose:hover { background:linear-gradient(var(--rose-50),var(--rose-100)) padding-box, linear-gradient(120deg,var(--rose-300),var(--rose-200)) border-box; box-shadow:0 4px 10px -2px rgba(0,0,0,0.12); }
+.btn-outline-rose:active { transform:translateY(1px); box-shadow:0 2px 6px -2px rgba(0,0,0,0.15); }
+.btn-outline-rose:focus-visible { outline:2px solid var(--rose-400); outline-offset:2px; }
+
+header.sticky-header { position:sticky; top:0; z-index:40; backdrop-filter:blur(8px); background:rgba(255,255,255,0.7); border-bottom:1px solid var(--rose-100); }
+
+/* Footer */
+footer.site-footer { background:var(--rose-100); border-top:1px solid var(--rose-200); }
+.btn-rose:hover { background: var(--rose-700); }
+/* Removed legacy @apply utilities */
+
+/* Standalone utility (no @apply) */
+.fade-up { opacity:0; transform:translateY(30px); transition:opacity .8s ease-out, transform .8s ease-out; }
+.fade-up.appear { opacity:1; transform:translateY(0); }
+/* Card animation helpers */
+.card-fade { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s cubic-bezier(.25,.6,.3,1); }
+.card-fade.in { opacity:1; transform:translateY(0); }
+.card-hover-lift { transition:transform .25s ease, box-shadow .25s ease; }
+.card-hover-lift:hover { transform:translateY(-4px); box-shadow:0 6px 18px -6px rgba(0,0,0,0.12); }
+
+/* Reusable informational card */
+.info-card { background:#fff; border:1px solid var(--rose-200); border-radius:16px; padding:24px; position:relative; box-shadow:0 2px 6px -2px rgba(0,0,0,0.06); transition:box-shadow .25s, transform .25s; }
+.info-card:hover { box-shadow:0 6px 18px -6px rgba(0,0,0,0.14); }
+.dark .info-card { background:var(--color-surface); border-color:var(--color-border); }
+.info-card .top-accent { position:absolute; inset:0 0 auto 0; height:2px; border-top-left-radius:16px; border-top-right-radius:16px; background:linear-gradient(90deg,var(--rose-500),var(--rose-400),var(--rose-600)); }
+.info-card.alt .top-accent { background:linear-gradient(90deg,var(--slate-800),var(--slate-700),var(--rose-600)); }
+.info-card.secondary .top-accent { background:linear-gradient(90deg,var(--rose-400),var(--rose-500),var(--rose-700)); }
+
+/* Hard-remove the legacy pedagogy/menstrual-health card section from LandingPage */
+section#pedagogy { display: none !important; }
+
+/* Partner logos marquee */
+.partner-marquee { position: relative; overflow: hidden; }
+.partner-marquee-track { display: flex; gap: 32px; align-items: center; width: max-content; animation: marquee-left 18s linear infinite; }
+.partner-marquee:hover .partner-marquee-track { animation-play-state: paused; }
+.partner-marquee-track img { height: 48px; max-height: 64px; width: auto; object-fit: contain; opacity: .9; filter: grayscale(10%); }
+.partner-marquee-track img:hover { opacity: 1; filter: none; }
+
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

@@ -1,0 +1,40 @@
+/* Page-scoped reveal animations for About page */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 600ms ease, transform 600ms ease;
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* Direction helpers */
+.reveal.from-left {
+  transform: translateX(-16px);
+}
+.reveal.from-right {
+  transform: translateX(16px);
+}
+.reveal.from-left.in-view,
+.reveal.from-right.in-view {
+  transform: none;
+}
+
+/* Simple stagger helpers */
+.reveal.delay-1 { transition-delay: 80ms; }
+.reveal.delay-2 { transition-delay: 160ms; }
+.reveal.delay-3 { transition-delay: 240ms; }
+.reveal.delay-4 { transition-delay: 320ms; }
+.reveal.delay-5 { transition-delay: 400ms; }
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; }
+  .reveal,
+  .reveal.in-view {
+    opacity: 1;
+    transform: none;
+  }
+}
