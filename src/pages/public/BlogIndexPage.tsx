@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react'; 
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useMemo } from 'react';  
+import { Link } from 'react-router-dom';
 import PublicNav from '../../components/layout/PublicNav';
 import JessicaNav from '../../components/jessica/JessicaNav';
 import PublicFooter from '../../components/layout/PublicFooter';
@@ -14,11 +14,18 @@ const BlogCard: React.FC<{ post: BlogPostSummary }> = ({ post }) => {
   const cover = post.coverImage || '';
   return (
     <Link to={`/blog/${post.slug}`} className="group rounded-2xl border bg-white flex flex-col overflow-hidden hover:shadow-md transition-shadow" style={{borderColor:'var(--rose-200)'}}>
-      <div className="aspect-video bg-[var(--rose-50)]">{cover ? <img src={cover} alt={post.title} className="w-full h-full object-cover" loading="lazy"/> : <div className="w-full h-full flex items-center justify-center text-[12px] text-[var(--muted-color)]">No cover</div>}</div>
+      <div className="aspect-video bg-[var(--rose-50)]">
+        {cover ? <img src={cover} alt={post.title} className="w-full h-full object-cover" loading="lazy"/> 
+               : <div className="w-full h-full flex items-center justify-center text-[12px] text-[var(--muted-color)]">No cover</div>}
+      </div>
       <div className="p-4 space-y-2">
         <h3 className="text-[15px] font-semibold text-[var(--slate-900)] line-clamp-2 group-hover:text-[var(--rose-700)]">{post.title}</h3>
         <p className="text-[12px] text-[var(--slate-600)]">{post.author}</p>
-        <div className="flex flex-wrap gap-1 mt-1">{post.tags.slice(0,3).map(t => <span key={t} className="px-2 py-0.5 rounded-full bg-[var(--rose-50)] text-[11px] text-[var(--rose-700)] border" style={{borderColor:'var(--rose-200)'}}>{t}</span>)}</div>
+        <div className="flex flex-wrap gap-1 mt-1">
+          {post.tags.slice(0,3).map(t => (
+            <span key={t} className="px-2 py-0.5 rounded-full bg-[var(--rose-50)] text-[11px] text-[var(--rose-700)] border" style={{borderColor:'var(--rose-200)'}}>{t}</span>
+          ))}
+        </div>
       </div>
     </Link>
   );
@@ -26,7 +33,6 @@ const BlogCard: React.FC<{ post: BlogPostSummary }> = ({ post }) => {
 
 const BlogIndexPage: React.FC<{ jessicaContext?: boolean }> = ({ jessicaContext }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPostSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string|undefined>(undefined);
@@ -34,7 +40,7 @@ const BlogIndexPage: React.FC<{ jessicaContext?: boolean }> = ({ jessicaContext 
   // 🔹 États pour recherche, pagination
   const [q, setQ] = useState('');
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(6);
+  const pageSize = 6; // const car non utilisé ailleurs
 
   useEffect(()=> {
     let cancelled = false;
