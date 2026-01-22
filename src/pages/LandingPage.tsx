@@ -13,16 +13,10 @@ import { impactMetrics } from '../data/metrics';
 import CountUp from '../components/ui/CountUp';
 import Reveal from '../components/ui/Reveal';
 
-// Lazy load les composants lourds avec export default
-const InteractiveWorldMap = React.lazy(() =>
-  import('../components/InteractiveWorldMap')
-);
-const Chatbot = React.lazy(() =>
-  import('../components/ui/Chatbot').then((module) => ({ default: module.default }))
-);
-const WorkflowDiagram = React.lazy(() =>
-  import('../components/ui/WorkflowDiagram')
-);
+// Lazy load composants lourds
+const InteractiveWorldMap = React.lazy(() => import('../components/InteractiveWorldMap'));
+const Chatbot = React.lazy(() => import('../components/ui/Chatbot'));
+const WorkflowDiagram = React.lazy(() => import('../components/ui/WorkflowDiagram'));
 
 // Helper timeout
 function withTimeout<T>(promise: Promise<T>, ms = 2500): Promise<T> {
@@ -40,12 +34,13 @@ const LandingPage: React.FC = () => {
   const [stories, setStories] = useState<BlogPostSummary[]>([]);
 
   // FETCH PROJECTS
-  useEffect(() => {
+  useEffect(()=> {
     let mounted = true;
+
     const cached = localStorage.getItem('landing_projects');
     if (cached) setActiveProjects(JSON.parse(cached));
 
-    (async () => {
+    (async ()=> {
       try {
         const featured = await withTimeout(apiPublic.apiListFeaturedProjects(3), 2500);
         if (!mounted || !featured?.length) return;
@@ -97,6 +92,7 @@ const LandingPage: React.FC = () => {
   // FETCH BLOG STORIES
   useEffect(() => {
     let mounted = true;
+
     const cached = localStorage.getItem('landing_stories');
     if (cached) setStories(JSON.parse(cached));
 
@@ -104,27 +100,30 @@ const LandingPage: React.FC = () => {
       try {
         const rows = await withTimeout(apiListBlog({ page: 1, pageSize: 3 }), 2500);
         if (!mounted || !rows?.length) return;
+
         localStorage.setItem('landing_stories', JSON.stringify(rows));
         if (mounted) setStories(rows);
-      } catch { }
+      } catch {
+        // ignore
+      }
     })();
 
     return () => { mounted = false; };
   }, []);
 
   // IntersectionObserver lazy init
-  useEffect(() => {
+  useEffect(()=> {
     requestIdleCallback(() => {
       const groups = document.querySelectorAll('[data-stagger-group]');
-      if (!groups.length) return;
+      if(!groups.length) return;
       const io = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
+          if(entry.isIntersecting) {
             const container = entry.target as HTMLElement;
             const items = Array.from(container.querySelectorAll('.card-fade')) as HTMLElement[];
             items.forEach((el, idx) => {
               el.style.transitionDelay = `${idx * 80}ms`;
-              requestAnimationFrame(() => el.classList.add('in'));
+              requestAnimationFrame(()=> el.classList.add('in'));
             });
             io.unobserve(container);
           }
