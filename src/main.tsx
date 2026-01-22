@@ -14,8 +14,9 @@ const queryClient = new QueryClient();
 
 // If running in Vite dev, try to fetch a dev token so admin endpoints work locally.
 if ((import.meta as any).env?.DEV) {
-  // best-effort, don't block rendering
-  fetchAndStoreDevToken().catch(()=>void 0);
+  setTimeout(() => {
+    fetchAndStoreDevToken().catch(() => void 0);
+  }, 0);
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
