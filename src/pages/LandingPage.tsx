@@ -13,10 +13,16 @@ import { impactMetrics } from '../data/metrics';
 import CountUp from '../components/ui/CountUp';
 import Reveal from '../components/ui/Reveal';
 
-// Lazy load les composants lourds
-const InteractiveWorldMap = React.lazy(() => import('../components/InteractiveWorldMap'));
-const Chatbot = React.lazy(() => import('../components/ui/Chatbot'));
-const WorkflowDiagram = React.lazy(() => import('../components/ui/WorkflowDiagram'));
+// Lazy load les composants lourds avec export default
+const InteractiveWorldMap = React.lazy(() =>
+  import('../components/InteractiveWorldMap')
+);
+const Chatbot = React.lazy(() =>
+  import('../components/ui/Chatbot').then((module) => ({ default: module.default }))
+);
+const WorkflowDiagram = React.lazy(() =>
+  import('../components/ui/WorkflowDiagram')
+);
 
 // Helper timeout
 function withTimeout<T>(promise: Promise<T>, ms = 2500): Promise<T> {
@@ -34,16 +40,12 @@ const LandingPage: React.FC = () => {
   const [stories, setStories] = useState<BlogPostSummary[]>([]);
 
   // FETCH PROJECTS
-  useEffect(()=> {
+  useEffect(() => {
     let mounted = true;
-
-    // Try cache first
     const cached = localStorage.getItem('landing_projects');
-    if (cached) {
-      setActiveProjects(JSON.parse(cached));
-    }
+    if (cached) setActiveProjects(JSON.parse(cached));
 
-    (async ()=> {
+    (async () => {
       try {
         const featured = await withTimeout(apiPublic.apiListFeaturedProjects(3), 2500);
         if (!mounted || !featured?.length) return;
@@ -85,7 +87,7 @@ const LandingPage: React.FC = () => {
         localStorage.setItem('landing_projects', JSON.stringify(hydrated));
         if (mounted) setActiveProjects(hydrated);
       } catch {
-        // ignore, cached data already set
+        // ignore
       }
     })();
 
@@ -95,7 +97,6 @@ const LandingPage: React.FC = () => {
   // FETCH BLOG STORIES
   useEffect(() => {
     let mounted = true;
-
     const cached = localStorage.getItem('landing_stories');
     if (cached) setStories(JSON.parse(cached));
 
@@ -103,30 +104,27 @@ const LandingPage: React.FC = () => {
       try {
         const rows = await withTimeout(apiListBlog({ page: 1, pageSize: 3 }), 2500);
         if (!mounted || !rows?.length) return;
-
         localStorage.setItem('landing_stories', JSON.stringify(rows));
         if (mounted) setStories(rows);
-      } catch {
-        // ignore, cached data already set
-      }
+      } catch { }
     })();
 
     return () => { mounted = false; };
   }, []);
 
   // IntersectionObserver lazy init
-  useEffect(()=> {
+  useEffect(() => {
     requestIdleCallback(() => {
       const groups = document.querySelectorAll('[data-stagger-group]');
-      if(!groups.length) return;
+      if (!groups.length) return;
       const io = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-          if(entry.isIntersecting) {
+          if (entry.isIntersecting) {
             const container = entry.target as HTMLElement;
             const items = Array.from(container.querySelectorAll('.card-fade')) as HTMLElement[];
             items.forEach((el, idx) => {
               el.style.transitionDelay = `${idx * 80}ms`;
-              requestAnimationFrame(()=> el.classList.add('in'));
+              requestAnimationFrame(() => el.classList.add('in'));
             });
             io.unobserve(container);
           }
@@ -136,7 +134,6 @@ const LandingPage: React.FC = () => {
     });
   }, [activeProjects]);
 
-  // Partner logos
   const partnerLogos = [
     { src: '/photos/partener/deerfield_academy_green_black_lock_up_horizontal.jpg', alt: 'Deerfield Academy' },
     { src: '/photos/partener/LE CRES.png', alt: 'LE CRES' },
@@ -369,18 +366,18 @@ const LandingPage: React.FC = () => {
           </div>
         </Reveal>
         {/* HOW IT WORKS (Workflow Diagram) */}
-      <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="how" delay={280}>
-        <div className="max-w-7xl mx-auto">
-          <h2 className="font-extrabold mb-8" style={{ fontSize:'26px', color:'var(--color-text-primary)' }}>
-            {t('landing.howTitle','A simple model that keeps girls in school')}
-          </h2>
-          <div className="rounded-xl p-6 md:p-10 border" style={{ borderColor:'var(--rose-200)', background:'var(--rose-50)' }}>
-            <Suspense fallback={null}>
-              <WorkflowDiagram />
-            </Suspense>
+        <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="how" delay={280}>
+          <div className="max-w-7xl mx-auto">
+            <h2 className="font-extrabold mb-8" style={{ fontSize: '26px', color: 'var(--color-text-primary)' }}>
+              {t('landing.howTitle', 'A simple model that keeps girls in school')}
+            </h2>
+            <div className="rounded-xl p-6 md:p-10 border" style={{ borderColor: 'var(--rose-200)', background: 'var(--rose-50)' }}>
+              <Suspense fallback={null}>
+                <WorkflowDiagram />
+              </Suspense>
+            </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
         {/* RELOCATED PARTNERS */}
         
         <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="partners" delay={300}>
@@ -403,18 +400,18 @@ const LandingPage: React.FC = () => {
         </Reveal>
         
         {/* RELOCATED MAP */}
-      <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="map" delay={320}>
-        <div className="max-w-7xl mx-auto">
-          <h2 className="font-extrabold mb-4" style={{ fontSize:'26px', color:'var(--color-text-primary)' }}>
-            {t('landing.countriesTitle','Where your impact is already growing')}
-          </h2>
-          <div className="bg-white border rounded-2xl p-2 sm:p-4 md:p-6" style={{ borderColor:'var(--rose-200)' }}>
-            <Suspense fallback={null}>
-              <InteractiveWorldMap mode="global" colorVariant="landing" />
-            </Suspense>
+        <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="map" delay={320}>
+          <div className="max-w-7xl mx-auto">
+            <h2 className="font-extrabold mb-4" style={{ fontSize: '26px', color: 'var(--color-text-primary)' }}>
+              {t('landing.countriesTitle', 'Where your impact is already growing')}
+            </h2>
+            <div className="bg-white border rounded-2xl p-2 sm:p-4 md:p-6" style={{ borderColor: 'var(--rose-200)' }}>
+              <Suspense fallback={null}>
+                <InteractiveWorldMap mode="global" colorVariant="landing" />
+              </Suspense>
+            </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
         {/* DONATE BANNER */}
   <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-16" id="donate-banner" delay={320}>
           <div className="max-w-7xl mx-auto">
