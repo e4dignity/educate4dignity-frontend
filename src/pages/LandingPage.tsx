@@ -401,10 +401,10 @@ const LandingPage: React.FC = () => {
         {/* RELOCATED MAP */}
         <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="map" delay={320}>
           <div className="max-w-7xl mx-auto">
-            <h2 className="font-extrabold mb-4" style={{ fontSize: '26px', color: 'var(--color-text-primary)' }}>
-              {t('landing.countriesTitle', 'Where your impact is already growing')}
+            <h2 className="font-extrabold mb-4" style={{ fontSize:'26px', color:'var(--color-text-primary)' }}>
+              {t('landing.countriesTitle','Where your impact is already growing')}
             </h2>
-            <div className="bg-white border rounded-2xl p-2 sm:p-4 md:p-6" style={{ borderColor: 'var(--rose-200)' }}>
+            <div className="bg-white border rounded-2xl p-2 sm:p-4 md:p-6" style={{ borderColor:'var(--rose-200)' }}>
               <Suspense fallback={null}>
                 <InteractiveWorldMap mode="global" colorVariant="landing" />
               </Suspense>
