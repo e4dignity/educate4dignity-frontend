@@ -15,7 +15,7 @@ import Reveal from '../components/ui/Reveal';
 
 // Lazy load composants lourds
 const InteractiveWorldMap = React.lazy(() => import('../components/InteractiveWorldMap'));
-const Chatbot = React.lazy(() => import('../components/ui/Chatbot'));
+const Chatbot = React.lazy(() => import('../components/ui/Chatbot').then(module => ({ default: module.Chatbot })));
 const WorkflowDiagram = React.lazy(() => import('../components/ui/WorkflowDiagram'));
 
 // Helper timeout
