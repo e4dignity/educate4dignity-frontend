@@ -12,6 +12,8 @@ import PublicNav from '../components/layout/PublicNav';
 import { impactMetrics } from '../data/metrics';
 import CountUp from '../components/ui/CountUp';
 import Reveal from '../components/ui/Reveal';
+import { ImageWithSpinner } from '../components/ui/ImageWithSpinner';
+
 
 // Lazy load composants lourds
 const InteractiveWorldMap = React.lazy(() => import('../components/InteractiveWorldMap'));
