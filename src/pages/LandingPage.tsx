@@ -406,7 +406,7 @@ const LandingPage: React.FC = () => {
             </h2>
             <div className="bg-white border rounded-2xl p-2 sm:p-4 md:p-6" style={{ borderColor:'var(--rose-200)' }}>
               <Suspense fallback={null}>
-                <InteractiveWorldMap mode="global" colorVariant="landing" />
+                <InteractiveWorldMap />
               </Suspense>
             </div>
           </div>
