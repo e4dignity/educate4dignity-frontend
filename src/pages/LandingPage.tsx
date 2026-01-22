@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Users, Heart, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Chatbot } from '../components/ui/Chatbot';
-import { InteractiveWorldMap } from '../components/InteractiveWorldMap';
-// Fetch featured projects from backend
-import * as apiPublic from '../services/apiPublic';
 import { apiListBlog, BlogPostSummary } from '../services/apiBlog';
+import * as apiPublic from '../services/apiPublic';
 import { Project } from '../types';
 import { useTranslation } from 'react-i18next';
 import ProjectCard from '../components/ProjectCard';
@@ -15,18 +12,42 @@ import PublicNav from '../components/layout/PublicNav';
 import { impactMetrics } from '../data/metrics';
 import CountUp from '../components/ui/CountUp';
 import Reveal from '../components/ui/Reveal';
-import WorkflowDiagram from '../components/ui/WorkflowDiagram';
+
+// Lazy load les composants lourds
+const InteractiveWorldMap = React.lazy(() => import('../components/InteractiveWorldMap'));
+const Chatbot = React.lazy(() => import('../components/ui/Chatbot'));
+const WorkflowDiagram = React.lazy(() => import('../components/ui/WorkflowDiagram'));
+
+// Helper timeout
+function withTimeout<T>(promise: Promise<T>, ms = 2500): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), ms)
+    ),
+  ]);
+}
 
 const LandingPage: React.FC = () => {
   const { t } = useTranslation();
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);
   const [stories, setStories] = useState<BlogPostSummary[]>([]);
+
+  // FETCH PROJECTS
   useEffect(()=> {
     let mounted = true;
-    (async ()=>{
+
+    // Try cache first
+    const cached = localStorage.getItem('landing_projects');
+    if (cached) {
+      setActiveProjects(JSON.parse(cached));
+    }
+
+    (async ()=> {
       try {
-  const featured = await apiPublic.apiListFeaturedProjects(3);
-        // Prepare a local photo pool for any missing/placeholder thumbnails
+        const featured = await withTimeout(apiPublic.apiListFeaturedProjects(3), 2500);
+        if (!mounted || !featured?.length) return;
+
         const photoPool = [
           '/photos/Others/Luiru1.jpg',
           '/photos/Others/luiru5.jpg',
@@ -36,210 +57,170 @@ const LandingPage: React.FC = () => {
         ];
         let pIdx = 0;
 
-        if (mounted && featured && featured.length) {
-          // Map API shape to Project card props expected by ProjectCard
-          const mapped: Project[] = featured.map((r) => ({
-            id: r.id,
-            title: r.name,
-            description: r.short || '',
-            type: 'distribution',
-            status: 'active',
-            budget: 0,
-            raised: 0,
-            startDate: new Date().toISOString(),
-            endDate: new Date().toISOString(),
-            location: r.location || '',
-            thumbnail: r.coverImage || '',
-            video: '',
-            createdBy: 'system',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          }));
-
-          // Ensure we always show a nice image: replace empty or .svg with a local photo
-          const hydrated = mapped.map(pr => {
-            const needsFallback = !pr.thumbnail || pr.thumbnail.endsWith('.svg');
-            return needsFallback
-              ? { ...pr, thumbnail: photoPool[pIdx++ % photoPool.length] }
-              : pr;
-          });
-          setActiveProjects(hydrated);
-          return;
-        }
-
-        // If nothing returned, fall back to local placeholders so the section isn't empty
-        const placeholders: Project[] = Array.from({length: 3}).map((_,i)=>({
-          id: `ph-${i+1}`,
-          title: ['Community kits for class','Workshops that change days','Local leaders teaching together'][i] || 'Project',
-          description: 'Help us kickstart and document this pilot—impact you can follow.',
+        const mapped: Project[] = featured.map((r) => ({
+          id: r.id,
+          title: r.name,
+          description: r.short || '',
           type: 'distribution',
           status: 'active',
           budget: 0,
           raised: 0,
           startDate: new Date().toISOString(),
           endDate: new Date().toISOString(),
-          location: 'East Africa',
-          thumbnail: photoPool[i % photoPool.length],
+          location: r.location || '',
+          thumbnail: r.coverImage || '',
           video: '',
           createdBy: 'system',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         }));
-        if (mounted) setActiveProjects(placeholders);
-      } catch {
-        // Backend unavailable: use graceful placeholders instead of an empty state
-        const photoPool = [
-          '/photos/Others/Luiru1.jpg',
-          '/photos/Others/luiru5.jpg',
-          '/photos/Others/luiru6.jpg',
-          '/photos/Others/B5.jpg',
-          '/photos/Others/B10.jpg'
-        ];
-        const placeholders: Project[] = Array.from({length: 3}).map((_,i)=>({
-          id: `ph-${i+1}`,
-          title: ['Community kits for class','Workshops that change days','Local leaders teaching together'][i] || 'Project',
-          description: 'Help us kickstart and document this pilot—impact you can follow.',
-          type: 'distribution',
-          status: 'active',
-          budget: 0,
-          raised: 0,
-          startDate: new Date().toISOString(),
-          endDate: new Date().toISOString(),
-          location: 'East Africa',
-          thumbnail: photoPool[i % photoPool.length],
-          video: '',
-          createdBy: 'system',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        }));
-        if (mounted) setActiveProjects(placeholders);
-      }
-    })();
-    return ()=> { mounted = false; };
-  }, []);
 
-  // Load latest stories (blog posts) from backend to replace hardcoded cards
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      try {
-        const rows = await apiListBlog({ page: 1, pageSize: 3 });
-        if (mounted && rows && rows.length) setStories(rows);
+        const hydrated = mapped.map(pr => {
+          const needsFallback = !pr.thumbnail || pr.thumbnail.endsWith('.svg');
+          return needsFallback
+            ? { ...pr, thumbnail: photoPool[pIdx++ % photoPool.length] }
+            : pr;
+        });
+
+        localStorage.setItem('landing_projects', JSON.stringify(hydrated));
+        if (mounted) setActiveProjects(hydrated);
       } catch {
-        if (mounted) setStories([]);
+        // ignore, cached data already set
       }
     })();
+
     return () => { mounted = false; };
   }, []);
-  // Partner logos for the partners section
+
+  // FETCH BLOG STORIES
+  useEffect(() => {
+    let mounted = true;
+
+    const cached = localStorage.getItem('landing_stories');
+    if (cached) setStories(JSON.parse(cached));
+
+    (async () => {
+      try {
+        const rows = await withTimeout(apiListBlog({ page: 1, pageSize: 3 }), 2500);
+        if (!mounted || !rows?.length) return;
+
+        localStorage.setItem('landing_stories', JSON.stringify(rows));
+        if (mounted) setStories(rows);
+      } catch {
+        // ignore, cached data already set
+      }
+    })();
+
+    return () => { mounted = false; };
+  }, []);
+
+  // IntersectionObserver lazy init
+  useEffect(()=> {
+    requestIdleCallback(() => {
+      const groups = document.querySelectorAll('[data-stagger-group]');
+      if(!groups.length) return;
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+            const container = entry.target as HTMLElement;
+            const items = Array.from(container.querySelectorAll('.card-fade')) as HTMLElement[];
+            items.forEach((el, idx) => {
+              el.style.transitionDelay = `${idx * 80}ms`;
+              requestAnimationFrame(()=> el.classList.add('in'));
+            });
+            io.unobserve(container);
+          }
+        });
+      }, { threshold: 0.2 });
+      groups.forEach(g => io.observe(g));
+    });
+  }, [activeProjects]);
+
+  // Partner logos
   const partnerLogos = [
     { src: '/photos/partener/deerfield_academy_green_black_lock_up_horizontal.jpg', alt: 'Deerfield Academy' },
     { src: '/photos/partener/LE CRES.png', alt: 'LE CRES' },
     { src: '/photos/partener/images.png', alt: 'UNICEF' }
   ];
-  // Impact metrics now provided via centralized data module for reuse / future dynamic loading.
-  // Staggered card fade-in observer (applies to any grid tagged with data-stagger-group)
-  useEffect(()=> {
-    const groups = document.querySelectorAll('[data-stagger-group]');
-    if(!groups.length) return;
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          const container = entry.target as HTMLElement;
-          const items = Array.from(container.querySelectorAll('.card-fade')) as HTMLElement[];
-          items.forEach((el, idx) => {
-            el.style.transitionDelay = `${idx * 80}ms`;
-            requestAnimationFrame(()=> el.classList.add('in'));
-          });
-          io.unobserve(container);
-        }
-      });
-    }, { threshold: 0.2 });
-    groups.forEach(g => io.observe(g));
-    return () => io.disconnect();
-  }, [activeProjects]);
 
   return (
-  <div className="min-h-screen" style={{background:'var(--color-primary-light)'}}> 
-  <PublicNav />
-      <main>
-        {/* Hero */}
-  <section className="relative px-4 sm:px-6 lg:px-8 pt-10 pb-14 min-h-[520px] md:min-h-[640px] flex items-center overflow-hidden" >
-          <div className="absolute inset-0 z-0">
-            <img src="/photos/Others/Luiru1.jpg" alt="Hero background" className="w-full h-full object-cover" />
-            {/* Darker overlay tending toward black for stronger focus */}
-            <div className="absolute inset-0" style={{
-              background: 'linear-gradient(180deg, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0.22) 35%, rgba(0,0,0,0.20) 60%, rgba(0,0,0,0.24) 100%), radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.38) 100%)',
-              mixBlendMode: 'normal'
-            }} />
-            {/* Subtle inner shadow for depth */}
-            <div className="pointer-events-none absolute inset-0" style={{boxShadow:'inset 0 0 80px rgba(0,0,0,0.20)'}} />
-          </div>
-          <div className="relative z-10 max-w-7xl mx-auto w-full">
-            <div className="max-w-2xl space-y-6 bg-white/55 backdrop-blur-md rounded-xl px-8 py-8 shadow-sm ring-1 ring-white/40">
-              <h1 className="font-extrabold text-[40px] leading-[44px] sm:text-[48px] sm:leading-[50px] md:text-[52px] md:leading-[56px]" style={{color:'var(--color-text-primary)'}}>{t('landing.title','Transform menstrual health education in East Africa')}</h1>
-              <p className="text-lg font-medium" style={{color:'var(--color-text-secondary)'}}>{t('landing.subtitle','We break taboos, educate communities, and provide sustainable solutions so every girl can manage her period with dignity.')}</p>
-              <p className="text-sm font-semibold" style={{color:'var(--rose-700)'}}>{t('landing.valueProp','Because no girl should miss school because of her period')}</p>
-              <div className="flex gap-3 flex-wrap pt-2">
-                <Link to="/donate" className="btn-donate" data-analytics-id="donate_now">{t('landing.makeDonation','Donate Now')}</Link>
-                <Link to="/projects" className="btn-outline-rose" data-analytics-id="see_projects">{t('landing.exploreProjects','See Active Projects')}</Link>
-              </div>
+  <div className="min-h-screen" style={{ background: 'var(--color-primary-light)' }}>
+    <PublicNav />
+    <main>
+      {/* HERO */}
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-10 pb-14 min-h-[520px] md:min-h-[640px] flex items-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img src="/photos/Others/Luiru1.jpg" alt="Hero background" className="w-full h-full object-cover" />
+          <div className="absolute inset-0" style={{
+            background: 'linear-gradient(180deg, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0.22) 35%, rgba(0,0,0,0.20) 60%, rgba(0,0,0,0.24) 100%), radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.38) 100%)',
+            mixBlendMode: 'normal'
+          }} />
+          <div className="pointer-events-none absolute inset-0" style={{ boxShadow: 'inset 0 0 80px rgba(0,0,0,0.20)' }} />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto w-full">
+          <div className="max-w-2xl space-y-6 bg-white/55 backdrop-blur-md rounded-xl px-8 py-8 shadow-sm ring-1 ring-white/40">
+            <h1 className="font-extrabold text-[40px] leading-[44px] sm:text-[48px] sm:leading-[50px] md:text-[52px] md:leading-[56px]" style={{ color: 'var(--color-text-primary)' }}>
+              {t('landing.title','Transform menstrual health education in East Africa')}
+            </h1>
+            <p className="text-lg font-medium" style={{ color: 'var(--color-text-secondary)' }}>
+              {t('landing.subtitle','We break taboos, educate communities, and provide sustainable solutions so every girl can manage her period with dignity.')}
+            </p>
+            <p className="text-sm font-semibold" style={{ color: 'var(--rose-700)' }}>
+              {t('landing.valueProp','Because no girl should miss school because of her period')}
+            </p>
+            <div className="flex gap-3 flex-wrap pt-2">
+              <Link to="/donate" className="btn-donate" data-analytics-id="donate_now">{t('landing.makeDonation','Donate Now')}</Link>
+              <Link to="/projects" className="btn-outline-rose" data-analytics-id="see_projects">{t('landing.exploreProjects','See Active Projects')}</Link>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
         {/* Immediate Impact Stats (moved up) */}
-        <section className="px-4 sm:px-6 lg:px-8 -mt-8 pb-12" id="impact-top">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" data-stagger-group>
-              {impactMetrics.map((m)=>{
-                const format = (v:number)=> {
-                  switch(m.formatter){
-                    case 'percent': return Math.round(v) + '%';
-                    case 'money': {
-                      const base = (v>=1000) ? (v/1000).toFixed(v>=100000 ? 0:1) + 'k' : v.toString();
-                      return '$' + base;
-                    }
-                    default: return Math.round(v).toLocaleString();
+      <section className="px-4 sm:px-6 lg:px-8 -mt-8 pb-12" id="impact-top">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" data-stagger-group>
+            {impactMetrics.map((m) => {
+              const format = (v: number) => {
+                switch(m.formatter){
+                  case 'percent': return Math.round(v) + '%';
+                  case 'money': {
+                    const base = (v>=1000) ? (v/1000).toFixed(v>=100000 ? 0:1) + 'k' : v.toString();
+                    return '$' + base;
                   }
-                };
-                return (
-                  <div key={m.key} className="p-6 text-center rounded-lg border card-fade card-hover-lift" style={{borderColor:'var(--color-border)',background:'var(--color-primary-light)'}}>
-                    <div className="kpi-number mb-1">
-                      <CountUp end={m.end} formatter={format} />{m.approx && '+'}
-                    </div>
-                    <div className="text-[13px]" style={{color:'var(--color-text-secondary)'}}>{m.sub}</div>
+                  default: return Math.round(v).toLocaleString();
+                }
+              };
+              return (
+                <div key={m.key} className="p-6 text-center rounded-lg border card-fade card-hover-lift" style={{ borderColor: 'var(--color-border)', background: 'var(--color-primary-light)' }}>
+                  <div className="kpi-number mb-1">
+                    <CountUp end={m.end} formatter={format} />{m.approx && '+'}
                   </div>
-                );
-              })}
-            </div>
+                  <div className="text-[13px]" style={{ color: 'var(--color-text-secondary)' }}>{m.sub}</div>
+                </div>
+              );
+            })}
           </div>
-        </section>
+        </div>
+      </section>
         
         {/* EDUCATION SECTION (image left, text right) */}
-  <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-14 mt-14" id="education" delay={60}>
-          <div className="max-w-7xl mx-auto grid gap-10 items-center md:grid-cols-2">
-            <div className="rounded-2xl overflow-hidden border order-1 md:order-none" style={{borderColor:'var(--rose-200)'}}>
-              <video
-                className="w-full h-full object-cover md:h-[420px]"
-                poster="/photos/Others/B5.jpg"
-                controls
-                preload="metadata"
-                playsInline
-                onEnded={(e)=>{ const v = e.currentTarget; try { v.pause(); v.currentTime = 0; v.load(); } catch(_) { /* noop */ } }}
-              >
-                <source src="/videos/video5985359414595426492.mp4" type="video/mp4" />
-                {t('education.videoFallback','Your browser does not support the video tag.')}
-              </video>
-            </div>
-            <div className="order-2 md:order-none">
-              <h2 className="font-extrabold mb-4" style={{fontSize:'34px',lineHeight:'1.15',color:'var(--color-text-primary)'}}>{t('education.title','Why menstrual health education matters')}</h2>
-              <p className="text-base font-medium mb-4" style={{color:'var(--color-text-secondary)'}}>{t('education.lead','Knowledge and dignity keep girls learning consistently.')}</p>
-              <p className="text-sm mb-3" style={{color:'var(--color-text-secondary)'}}>{t('education.p1')}</p>
-              <p className="text-sm mb-6" style={{color:'var(--color-text-secondary)'}}>{t('education.p2')}</p>
-              <Link to="/e-learning" className="btn-outline-rose text-sm">{t('education.cta','See more content about menstruation health')}</Link>
-            </div>
+<Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-14 mt-14" id="education" delay={60}>
+        <div className="max-w-7xl mx-auto grid gap-10 items-center md:grid-cols-2">
+          <div className="rounded-2xl overflow-hidden border order-1 md:order-none" style={{ borderColor: 'var(--rose-200)' }}>
+            <video className="w-full h-full object-cover md:h-[420px]" poster="/photos/Others/B5.jpg" controls preload="metadata" playsInline onEnded={(e) => { const v = e.currentTarget; try { v.pause(); v.currentTime = 0; v.load(); } catch(_){} }}>
+              <source src="/videos/video5985359414595426492.mp4" type="video/mp4" />
+              {t('education.videoFallback','Your browser does not support the video tag.')}
+            </video>
           </div>
-    </Reveal>
+          <div className="order-2 md:order-none">
+            <h2 className="font-extrabold mb-4" style={{ fontSize:'34px', lineHeight:'1.15', color:'var(--color-text-primary)' }}>{t('education.title','Why menstrual health education matters')}</h2>
+            <p className="text-base font-medium mb-4" style={{ color:'var(--color-text-secondary)' }}>{t('education.lead','Knowledge and dignity keep girls learning consistently.')}</p>
+            <p className="text-sm mb-3" style={{ color:'var(--color-text-secondary)' }}>{t('education.p1')}</p>
+            <p className="text-sm mb-6" style={{ color:'var(--color-text-secondary)' }}>{t('education.p2')}</p>
+            <Link to="/e-learning" className="btn-outline-rose text-sm">{t('education.cta','See more content about menstruation health')}</Link>
+          </div>
+        </div>
+      </Reveal>
   {/* AUDIENCE COMBINED 3-COLUMN SECTION (moved below education) */}
   <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-16 mt-4" id="audiences-moved" delay={70}>
           <div className="max-w-7xl mx-auto">
@@ -388,16 +369,20 @@ const LandingPage: React.FC = () => {
           </div>
         </Reveal>
         {/* HOW IT WORKS (Workflow Diagram) */}
-  <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="how" delay={280}>
-          <div className="max-w-7xl mx-auto">
-            <h2 className="font-extrabold mb-8" style={{fontSize:'26px',color:'var(--color-text-primary)'}}>{t('landing.howTitle','A simple model that keeps girls in school')}</h2>
-            <div className="rounded-xl p-6 md:p-10 border" style={{borderColor:'var(--rose-200)',background:'var(--rose-50)'}}>
-              {/* New visual workflow */}
+      <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="how" delay={280}>
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-extrabold mb-8" style={{ fontSize:'26px', color:'var(--color-text-primary)' }}>
+            {t('landing.howTitle','A simple model that keeps girls in school')}
+          </h2>
+          <div className="rounded-xl p-6 md:p-10 border" style={{ borderColor:'var(--rose-200)', background:'var(--rose-50)' }}>
+            <Suspense fallback={null}>
               <WorkflowDiagram />
-            </div>
+            </Suspense>
           </div>
-  </Reveal>
+        </div>
+      </Reveal>
         {/* RELOCATED PARTNERS */}
+        
         <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="partners" delay={300}>
           <div className="max-w-7xl mx-auto space-y-8">
             <div>
@@ -416,15 +401,20 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
         </Reveal>
+        
         {/* RELOCATED MAP */}
-        <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="map" delay={320}>
-          <div className="max-w-7xl mx-auto">
-            <h2 className="font-extrabold mb-4" style={{fontSize:'26px',color:'var(--color-text-primary)'}}>{t('landing.countriesTitle','Where your impact is already growing')}</h2>
-            <div className="bg-white border rounded-2xl p-2 sm:p-4 md:p-6" style={{borderColor:'var(--rose-200)'}}>
+      <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-12" id="map" delay={320}>
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-extrabold mb-4" style={{ fontSize:'26px', color:'var(--color-text-primary)' }}>
+            {t('landing.countriesTitle','Where your impact is already growing')}
+          </h2>
+          <div className="bg-white border rounded-2xl p-2 sm:p-4 md:p-6" style={{ borderColor:'var(--rose-200)' }}>
+            <Suspense fallback={null}>
               <InteractiveWorldMap mode="global" colorVariant="landing" />
-            </div>
+            </Suspense>
           </div>
-        </Reveal>
+        </div>
+      </Reveal>
         {/* DONATE BANNER */}
   <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-16" id="donate-banner" delay={320}>
           <div className="max-w-7xl mx-auto">
@@ -438,7 +428,10 @@ const LandingPage: React.FC = () => {
   </Reveal>
       </main>
       <PublicFooter withNewsletter topMargin={false} />
-      <Chatbot />
+        {/* CHATBOT */}
+      <Suspense fallback={null}>
+        <Chatbot />
+      </Suspense>
     </div>
   );
 };
