@@ -147,9 +147,12 @@ const LandingPage: React.FC = () => {
     <main>
 {/* HERO */}
 <section className="relative min-h-[520px] md:min-h-[640px] overflow-hidden">
-  {/* Background */}
+  {/* Background image */}
   <div className="absolute inset-0 z-0">
-    <ImageWithSpinner src="/photos/Others/Luiru1.jpg" alt="Hero background" />
+    <ImageWithSpinner
+      src="/photos/Others/Luiru1.jpg"
+      alt="Hero background"
+    />
 
     <div
       className="absolute inset-0"
@@ -158,44 +161,26 @@ const LandingPage: React.FC = () => {
           'linear-gradient(180deg, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0.22) 35%, rgba(0,0,0,0.20) 60%, rgba(0,0,0,0.24) 100%), radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.38) 100%)',
       }}
     />
-
-    <div
-      className="pointer-events-none absolute inset-0"
-      style={{ boxShadow: 'inset 0 0 80px rgba(0,0,0,0.20)' }}
-    />
   </div>
 
   {/* Content */}
   <div className="relative z-10 px-4 sm:px-6 lg:px-8 pt-10 pb-14 min-h-[520px] md:min-h-[640px] flex items-center">
     <div className="max-w-7xl mx-auto w-full">
       <div className="max-w-2xl space-y-6 bg-white/55 backdrop-blur-md rounded-xl px-8 py-8 shadow-sm ring-1 ring-white/40">
-        <h1
-          className="font-extrabold text-[40px] leading-[44px] sm:text-[48px] sm:leading-[50px] md:text-[52px] md:leading-[56px]"
-          style={{ color: 'var(--color-text-primary)' }}
-        >
-          {t('landing.title','Transform menstrual health education in East Africa')}
+        <h1 className="font-extrabold text-[40px] sm:text-[52px]">
+          {t('landing.title')}
         </h1>
 
-        <p className="text-lg font-medium" style={{ color: 'var(--color-text-secondary)' }}>
-          {t(
-            'landing.subtitle',
-            'We break taboos, educate communities, and provide sustainable solutions so every girl can manage her period with dignity.'
-          )}
+        <p className="text-lg">
+          {t('landing.subtitle')}
         </p>
 
-        <p className="text-sm font-semibold" style={{ color: 'var(--rose-700)' }}>
-          {t(
-            'landing.valueProp',
-            'Because no girl should miss school because of her period'
-          )}
-        </p>
-
-        <div className="flex gap-3 flex-wrap pt-2">
+        <div className="flex gap-3 pt-2">
           <Link to="/donate" className="btn-donate">
-            {t('landing.makeDonation','Donate Now')}
+            {t('landing.makeDonation')}
           </Link>
           <Link to="/projects" className="btn-outline-rose">
-            {t('landing.exploreProjects','See Active Projects')}
+            {t('landing.exploreProjects')}
           </Link>
         </div>
       </div>
