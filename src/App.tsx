@@ -2,7 +2,11 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 import './App.css'
 
-// Import pages (simplified for Jessica's approach)
+import ScrollToTop from './components/routing/ScrollToTop'
+import PageSkeleton from './components/feedback/PageSkeleton'
+import { ProtectedRoute } from './components/ProtectedRoute'
+
+// Lazy pages
 const LandingPage = lazy(() => import('./pages/LandingPage'))
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
 const Login = lazy(() => import('./pages/auth/Login'))
@@ -17,54 +21,210 @@ const CheckoutSuccessPage = lazy(() => import('./pages/public/CheckoutSuccessPag
 const CheckoutCancelPage = lazy(() => import('./pages/public/CheckoutCancelPage'))
 const TestPage = lazy(() => import('./pages/TestPage'))
 const NotFoundPage = lazy(() => import('./pages/public/NotFoundPage'))
+
 const JessicaHomePage = lazy(() => import('./pages/JessicaHomePage'))
-const JessicaGalleryPage = lazy(() => import('./pages/JessicaGalleryPage'));
-//const JessicaBlogPage = lazy(() => import('./pages/JessicaBlogPage'))
-const BlogIndexPage = lazy(() => import('./pages/public/BlogIndexPage'));
-import { ProtectedRoute } from './components/ProtectedRoute'
-import PageSkeleton from './components/feedback/PageSkeleton'
-import ScrollToTop from './components/routing/ScrollToTop'
+const JessicaGalleryPage = lazy(() => import('./pages/JessicaGalleryPage'))
+const BlogIndexPage = lazy(() => import('./pages/public/BlogIndexPage'))
 
 function App() {
   return (
     <Router>
       <div className="App">
         <ScrollToTop />
-        <Suspense fallback={<PageSkeleton withHeader lines={10} />}> 
+
         <Routes>
-          {/* Jessica's main site */}
-          <Route path="/" element={<JessicaHomePage />} />
-          <Route path="/" element={<JessicaHomePage />} />
-          <Route path="/gallery" element={<JessicaGalleryPage />} />
-          <Route path="/blog" element={<BlogIndexPage jessicaContext />} />
-          <Route path="/blog/:slug" element={<BlogArticlePage />} />
-          
-          {/* Organization legacy (for donors/admin) */}
-          <Route path="/organization" element={<LandingPage />} />
-          
+          {/* ===================== */}
+          {/* Jessica main site */}
+          {/* ===================== */}
+
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<PageSkeleton withHeader lines={6} />}>
+                <JessicaHomePage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/gallery"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <JessicaGalleryPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/blog"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <BlogIndexPage jessicaContext />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/blog/:slug"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <BlogArticlePage />
+              </Suspense>
+            }
+          />
+
+          {/* ===================== */}
+          {/* Organization site */}
+          {/* ===================== */}
+
+          <Route
+            path="/organization"
+            element={
+              // IMPORTANT : pas de skeleton ici → le HERO s’affiche direct
+              <Suspense fallback={null}>
+                <LandingPage />
+              </Suspense>
+            }
+          />
+
+          {/* ===================== */}
           {/* Public pages */}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/donate" element={<DonationPage />} />
-          <Route path="/support" element={<DirectDonationPage />} />
-          <Route path="/checkout-session" element={<CheckoutSessionPage />} />
-          <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
-          <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
-          
+          {/* ===================== */}
+
+          <Route
+            path="/about"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <AboutPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/contact"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <ContactPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/donate"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <DonationPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/support"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <DirectDonationPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/checkout-session"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <CheckoutSessionPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/checkout/success"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <CheckoutSuccessPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/checkout/cancel"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <CheckoutCancelPage />
+              </Suspense>
+            }
+          />
+
+          {/* ===================== */}
           {/* Auth & Admin */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/signup" element={<Signup />} />
-          <Route path="/admin/*" element={<ProtectedRoute roles={['admin']} element={<AdminDashboard />} />} />
-          
+          {/* ===================== */}
+
+          <Route
+            path="/login"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <Login />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/auth/login"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <Login />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/auth/signup"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <Signup />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedRoute
+                roles={['admin']}
+                element={
+                  <Suspense fallback={<PageSkeleton />}>
+                    <AdminDashboard />
+                  </Suspense>
+                }
+              />
+            }
+          />
+
+          {/* ===================== */}
           {/* Dev & 404 */}
-          <Route path="/test" element={<TestPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+          {/* ===================== */}
+
+          <Route
+            path="/test"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <TestPage />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <NotFoundPage />
+              </Suspense>
+            }
+          />
         </Routes>
-        </Suspense>
       </div>
     </Router>
   )
 }
 
 export default App
+
