@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/VOTRE_USER_CPANEL/public_html/
-    - /bin/cp -R dist/* $DEPLOYPATH
+    - export DEPLOYPATH=/home/ikiotahu/public_html/
+    - /bin/cp -R * $DEPLOYPATH
